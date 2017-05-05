@@ -19,7 +19,7 @@ Adafruit_Si7021 sensor_T_H = Adafruit_Si7021(); //用构造函数生成温湿度传感器对象
 Adafruit_BMP280 bme; // 定义气压计
 Adafruit_SSD1306 display;
 DT IotDT;
-float DT_get_array[4];
+float DT_get_array[8];
 
 int serial_putc(char c, struct __file *)
 {
@@ -40,15 +40,19 @@ void simple_display(int x, int y, char* str) {
 }
 
 void Sensor_Get() {
-	DT_get_array[0] = sensor_T_H.readTemperature();
-	DT_get_array[1] = sensor_T_H.readHumidity();
-	DT_get_array[2] = bme.readPressure();
-	DT_get_array[3] = 0;
-
+	DT_get_array[0] = sensor_T_H.readTemperature(); //温度  t
+	DT_get_array[1] = sensor_T_H.readHumidity(); //湿度  h
+	DT_get_array[2] = bme.readPressure(); //气压  b
+	DT_get_array[3] = 0; //光照  l
+	DT_get_array[4] = 0; //雨水  r
+	DT_get_array[5] = 0; //CO2   c
+	DT_get_array[6] = 0; //甲醛  j
+	DT_get_array[7] = 0; //空气质量  q
 }
 
 void setup() {
 	Serial.begin(115200);
+	Serial.println("ok");
 	sensor_T_H.begin();
 	bme.begin();
 	display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3D (for the 128x64)
