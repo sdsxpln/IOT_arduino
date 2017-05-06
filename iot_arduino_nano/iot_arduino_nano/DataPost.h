@@ -2,7 +2,7 @@
 #include "stdlib.h"
 #include "Arduino.h"
 #include "Wire.h"
-#define BaseVoltage 5.00f
+#define BaseVoltage 3.30f
 #define BH1750address 0x23
 class DT
 {
