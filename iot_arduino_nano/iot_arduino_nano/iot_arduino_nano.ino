@@ -43,9 +43,9 @@ void Sensor_Get() {
 	DT_get_array[0] = sensor_T_H.readTemperature(); //温度  t
 	DT_get_array[1] = sensor_T_H.readHumidity(); //湿度  h
 	DT_get_array[2] = bme.readPressure(); //气压  b
-	DT_get_array[3] = 0; //光照  l
+	DT_get_array[3] = Get_Lux();//光照  l
 	DT_get_array[4] = 0; //雨水  r
-	DT_get_array[5] = 0; //CO2   c
+	DT_get_array[5] = Get_MQ7(A1); //CO2   c
 	DT_get_array[6] = 0; //甲醛  j
 	DT_get_array[7] = 0; //空气质量  q
 }
@@ -55,6 +55,7 @@ void setup() {
 	Serial.println("ok");
 	sensor_T_H.begin();
 	bme.begin();
+	BH1750_Init(BH1750address);
 	display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3D (for the 128x64)
 	display.display();
 	display.clearDisplay();

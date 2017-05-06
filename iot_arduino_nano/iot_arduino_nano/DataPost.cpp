@@ -1,6 +1,5 @@
 #include "DataPost.h"
-
-
+byte buff[2];
 
 void DT::Send_to_esp()
 {
@@ -37,4 +36,48 @@ void DT::DataUpdate(float DataArray[])
 	Sensor_Formal = DataArray[6];
 	Sensor_Air = DataArray[7];
 }
+
+float Get_MQ7(int MQ7_Pin) {
+	int var;
+	float Convert_Voltage;
+	var = analogRead(MQ7_Pin);
+	Convert_Voltage = (BaseVoltage*var) / 1024;
+	return (10.0f + 100.0f * Convert_Voltage);
+}
+
+
+int BH1750_Read(int address) 
+{
+	int i = 0;
+	Wire.beginTransmission(address);
+	Wire.requestFrom(address, 2);
+	while (Wire.available()) 
+	{
+		buff[i] = Wire.read();  // read one byte
+		i++;
+	}
+	Wire.endTransmission();
+	return i;
+}
+
+
+
+
+void BH1750_Init(int address)
+{
+	Wire.beginTransmission(address);
+	Wire.write(0x10);
+	Wire.endTransmission();
+}
+
+int Get_Lux() {
+	int val;
+	val = ((buff[0] << 8) | buff[1]) / 1.2;
+	return val;
+}
+
+
+
+
+
 
